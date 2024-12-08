@@ -1,0 +1,38 @@
+body {
+  /*background-color: #f8f9fa;*/
+  background-color: #333;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ff0000;
+  text-shadow: 1px 1px 3px black;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+button {
+  font-weight: bold;
+  /*background-color: #6c757d;*/
+  background-color: #000 !important;
+  /*color: white;*/
+  color: #5af78e !important;
+  width: 100%; /* set width to 100% of parent container */
+  height: 60px; /* set height to a fixed value */
+  padding: 10px; /* add some padding for better looks */
+  font-size: 16px; /* set font size */
+  margin-bottom: 10px; /* add some margin between buttons */
+}
+
+button:hover {
+  background-color: #5a6268;
+  color: #f8f9fa;
+}
+
+#target-domain {
+  text-align: center;
+  font-size: 1.2rem;
+}
