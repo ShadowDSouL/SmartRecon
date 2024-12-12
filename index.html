@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartRecon</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="text-center mt-4">
+      <h1 class="title">SmartRecon</h1>
+    </div>
+
+    <!-- Input Section -->
+    <div class="row justify-content-center mt-3">
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Enter Target Domain" id="target-domain">
+      </div>
+    </div>
+
+    <!-- Buttons Grid -->
+    <div class="row mt-4">
+      <!-- First Column of Buttons -->
+      <div class="col-md-2">
+        <button class="btn btn-secondary w-100 my-2">Directory Listing</button>
+        <button class="btn btn-secondary w-100 my-2">Configuration Files</button>
+        <button class="btn btn-secondary w-100 my-2">Database Files</button>
+        <button class="btn btn-secondary w-100 my-2">Log Files</button>
+        <button class="btn btn-secondary w-100 my-2">Backup and Old Files</button>
+        <button class="btn btn-secondary w-100 my-2">Login Pages</button>
+        <button class="btn btn-secondary w-100 my-2">SQL Errors</button>
+        <button class="btn btn-secondary w-100 my-2">Apache Config Files</button>
+        <button class="btn btn-secondary w-100 my-2">Robots.txt File</button>
+        <button class="btn btn-secondary w-100 my-2">DomainEye**</button>
+      </div>
+      
+      <!-- Second Column of Buttons -->
+      <div class="col-md-2">
+        <button class="btn btn-secondary w-100 my-2">Publicly Exposed Documents</button>
+        <button class="btn btn-secondary w-100 my-2">phpinfo()</button>
+        <button class="btn btn-secondary w-100 my-2">Finding Backdoors</button>
+        <button class="btn btn-secondary w-100 my-2">Install / Setup files</button>
+        <button class="btn btn-secondary w-100 my-2">Open Redirects</button>
+        <button class="btn btn-secondary w-100 my-2">Test Cross Domain</button>
+        <button class="btn btn-secondary w-100 my-2">3rd Party Exposure</button>
+        <button class="btn btn-secondary w-100 my-2">Check Security Headers</button>
+        <button class="btn btn-secondary w-100 my-2">Web-Check</button>
+      </div>
+
+      <!-- Third Column of Buttons -->
+      <div class="col-md-2">
+        <button class="btn btn-secondary w-100 my-2">What CMS?</button>
+        <button class="btn btn-secondary w-100 my-2">WordPress</button>
+        <button class="btn btn-secondary w-100 my-2">Find WordPress#2</button>
+        <button class="btn btn-secondary w-100 my-2">Find Pastebin entries</button>
+        <button class="btn btn-secondary w-100 my-2">.htaccess Sensitive Files</button>
+        <button class="btn btn-secondary w-100 my-2">Find Subdomains</button>
+        <button class="btn btn-secondary w-100 my-2">Find Sub-Subdomains</button>
+        <button class="btn btn-secondary w-100 my-2">Passive Total**</button>
+        <button class="btn btn-secondary w-100 my-2">Check in ThreatCrowd**</button>
+      </div>
+      
+      <!-- Fourth Column of Buttons -->
+      <div class="col-md-2">
+        <button class="btn btn-secondary w-100 my-2">Youtube</button>
+        <button class="btn btn-secondary w-100 my-2">Employees on LinkedIn</button>
+        <button class="btn btn-secondary w-100 my-2">GitLab</button>
+        <button class="btn btn-secondary w-100 my-2">GitHub</button>
+        <button class="btn btn-secondary w-100 my-2">GitHub GIST Searches</button>
+        <button class="btn btn-secondary w-100 my-2">.git folder</button>
+        <button class="btn btn-secondary w-100 my-2">Stackoverflow</button>
+        <button class="btn btn-secondary w-100 my-2">OpenBugBounty</button>
+        <button class="btn btn-secondary w-100 my-2">Reddit</button>
+      </div>
+
+      <!-- Fifth Column of Buttons -->
+      <div class="col-md-2">
+        <button class="btn btn-secondary w-100 my-2">Find .SWF File</button>
+        <button class="btn btn-secondary w-100 my-2">Find .SWF File (Wayback)</button>
+        <button class="btn btn-secondary w-100 my-2">Wayback Machine</button>
+        <button class="btn btn-secondary w-100 my-2">Reverse IP Lookup</button>
+        <button class="btn btn-secondary w-100 my-2">Traefik</button>
+        <button class="btn btn-secondary w-100 my-2">Cloud Storage and Buckets</button>
+        <button class="btn btn-secondary w-100 my-2">Bitbucket & Atlassian</button>
+        <button class="btn btn-secondary w-100 my-2">Digital Ocean Spaces</button>
+        <button class="btn btn-secondary w-100 my-2">s3 Buckets</button>
+      </div>
+
+      <!-- Sixth Column of Buttons -->
+      <div class="col-md-2">
+        <button class="btn btn-secondary w-100 my-2">Source Code PublicWWW</button>
+        <button class="btn btn-secondary w-100 my-2">Check in Censys [IPv4]</button>
+        <button class="btn btn-secondary w-100 my-2">Check in Censys [Domains]</button>
+        <button class="btn btn-secondary w-100 my-2">Check in Censys [Certs]</button>
+        <button class="btn btn-secondary w-100 my-2">Check in Shodan</button>
+        <button class="btn btn-secondary w-100 my-2">CVE-2020-0646 SharePoint RCE</button>
+        <button class="btn btn-secondary w-100 my-2">Apache Struts RCE</button>
+        <button class="btn btn-secondary w-100 my-2">API Endpoints - ESDL</button>
+        <button class="btn btn-secondary w-100 my-2">Search in CRT Logs</button>
+        <button class="btn btn-secondary w-100 my-2">Plaintext Password Leak</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
