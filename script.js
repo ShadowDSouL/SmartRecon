@@ -29,14 +29,11 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'Apache Config Files':
         window.open('https://www.google.com/search?q=site:'+targetDomain+' filetype:config apache', '_blank', 'noopener,noreferrer');
         break;
+
+      //Second Column
       case 'Robots.txt File':
         window.open('https://www.google.com/search?q=site:'+targetDomain+'/robots.txt', '_blank', 'noopener,noreferrer');
         break;
-      case 'DomainEye**':
-        window.open('https://domaineye.com/similar/'+targetDomain, '_blank', 'noopener,noreferrer');
-        break;
-
-      //Second Column
       case 'Publicly Exposed Documents':
         window.open('https://www.google.com/search?q=site:'+targetDomain+' ext:doc | ext:docx | ext:odt | ext:pdf | ext:rtf | ext:sxw | ext:psw | ext:ppt | ext:pptx | ext:pps | ext:csv', '_blank', 'noopener,noreferrer');
         break;
@@ -55,6 +52,8 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'Test Cross Domain':
         window.open('https://www.google.com/search?q=site:'+targetDomain+'/crossdomain.xml', '_blank', 'noopener,noreferrer');
         break;
+
+      //Third Column
       case '3rd Party Exposure':
         window.open('https://www.google.com/search?q=site%3Ahttp%3A%2F%2Fideone.com+|+site%3Ahttp%3A%2F%2Fcodebeautify.org+|+site%3Ahttp%3A%2F%2Fcodeshare.io+|+site%3Ahttp%3A%2F%2Fcodepen.io+|+site%3Ahttp%3A%2F%2Frepl.it+|+site%3Ahttp%3A%2F%2Fjustpaste.it+|+site%3Ahttp%3A%2F%2Fpastebin.com+|+site%3Ahttp%3A%2F%2Fjsfiddle.net+|+site%3Ahttp%3A%2F%2Ftrello.com+|+site%3A*.atlassian.net+|+site%3Abitbucket.org+'+targetDomain, '_blank', 'noopener,noreferrer');
         break;
@@ -64,8 +63,6 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'Web-Check':
         window.open('https://web-check.xyz/check/'+targetDomain, '_blank', 'noopener,noreferrer');
         break;
-
-      //Third Column
       case 'What CMS?':
         window.open('https://whatcms.org/?s='+targetDomain, '_blank', 'noopener,noreferrer');
         break;
@@ -78,6 +75,8 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'Find Pastebin entries':
         window.open('https://www.google.com/search?q=site:pastebin.com '+targetDomain, '_blank', 'noopener,noreferrer');
         break;
+
+      //Fourth Column 
       case '.htaccess Sensitive Files':
         window.open('https://www.google.com/search?q=site:'+targetDomain+' inurl:/phpinfo.php | inurl:.htaccess', '_blank', 'noopener,noreferrer');
         break;
@@ -87,14 +86,9 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'Find Sub-Subdomains':
         window.open('https://www.google.com/search?q=site:*.*.'+targetDomain, '_blank', 'noopener,noreferrer');
         break;
-      case 'Passive Total**':
-        window.open('https://community.riskiq.com/search/'+targetDomain, '_blank', 'noopener,noreferrer');
+      case 'OpenBugBounty':
+        window.open('https://www.openbugbounty.org/search/?search='+targetDomain, '_blank', 'noopener,noreferrer');
         break;
-      case 'Check in ThreatCrowd**':
-        window.open('https://threatcrowd.org/domain.php?domain='+targetDomain, '_blank', 'noopener,noreferrer');
-        break;
-
-      //Fourth Column 
       case 'Youtube':
         window.open('https://www.youtube.com/results?search_query='+targetDomain, '_blank', 'noopener,noreferrer');
         break;
@@ -104,6 +98,8 @@ document.querySelectorAll('button').forEach((button, index) => {
         case 'GitLab':
         window.open('https://www.google.com/search?q=inurl:gitlab '+targetDomain, '_blank', 'noopener,noreferrer');
         break;
+
+      //Fifth Column
       case 'GitHub':
         window.open('https://github.com/search?q=*.'+targetDomain, '_blank', 'noopener,noreferrer');
         break;
@@ -116,19 +112,8 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'Stackoverflow':
         window.open('https://www.google.com/search?q=site:stackoverflow.com '+targetDomain, '_blank', 'noopener,noreferrer');
         break;
-      case 'OpenBugBounty':
-        window.open('https://www.openbugbounty.org/search/?search='+targetDomain, '_blank', 'noopener,noreferrer');
-        break;
       case 'Reddit':
         window.open('https://www.reddit.com/search/?q='+targetDomain, '_blank', 'noopener,noreferrer');
-        break;
-
-      //Fifth Column
-      case 'Find .SWF File':
-        window.open('https://www.google.com/search?q=inurl:'+targetDomain+' ext:swf', '_blank', 'noopener,noreferrer');
-        break;
-      case 'Find .SWF File (Wayback)':
-        window.open('https://web.archive.org/cdx/search?url='+targetDomain+'/&matchType=domain&collapse=urlkey&output=text&fl=original&filter=urlkey:.*swf&limit=100000', '_blank', 'noopener,noreferrer');
         break;
       case 'Wayback Machine':
         window.open('https://web.archive.org/web/*/'+targetDomain+'/*', '_blank', 'noopener,noreferrer');
@@ -136,23 +121,14 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'Reverse IP Lookup':
         window.open('https://viewdns.info/reverseip/?host='+targetDomain+'&t=1', '_blank', 'noopener,noreferrer');
         break;
-      case 'Traefik':
-        window.open('https://www.google.com/search?q=intitle:traefik+inurl:8080/dashboard '+targetDomain, '_blank', 'noopener,noreferrer');
-        break;
+
+      //Sixth Column
       case 'Cloud Storage and Buckets':
         window.open('https://cse.google.com/cse?cx=002972716746423218710:veac6ui3rio#gsc.tab=0&gsc.q='+targetDomain, '_blank', 'noopener,noreferrer');
-        break;
-      case 'Bitbucket & Atlassian':
-        window.open('https://www.google.com/search?q=site%3Aatlassian.net+|+site%3Abitbucket.org+'+targetDomain, '_blank', 'noopener,noreferrer');
-        break;
-      case 'Digital Ocean Spaces':
-        window.open('https://www.google.com/search?q=site:digitaloceanspaces.com '+targetDomain, '_blank', 'noopener,noreferrer');
         break;
       case 's3 Buckets':
         window.open('https://www.google.com/search?q=site:.s3.amazonaws.com '+targetDomain, '_blank', 'noopener,noreferrer');
         break;
-
-      //Sixth Column
       case 'Source Code PublicWWW':
         window.open('https://publicwww.com/websites/'+targetDomain, '_blank', 'noopener,noreferrer');
         break;
@@ -168,21 +144,8 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'Check in Shodan':
         window.open('https://www.shodan.io/search?query='+targetDomain, '_blank', 'noopener,noreferrer');
         break;
-      case 'CVE-2020-0646 SharePoint RCE':
-        window.open('https://www.google.com/search?q=.sharepoint.com/_vti_bin/webpartpages/asmx -docs -msdn -mdsec site:'+targetDomain, '_blank', 'noopener,noreferrer');
-        alert("PoC CallExternalMethodActivity x: Name = \"foo\"....System.Diagnostics.Process.Start(\"cmd.exe\", \"/c ping BurpCollabServer]\");private/**void**foobar(){//' />");
-        break;
-      case 'Apache Struts RCE':
-        window.open('https://www.google.com/search?q=site:'+targetDomain+' ext:action | ext:struts | ext:do', '_blank', 'noopener,noreferrer');
-        break;
-      case 'API Endpoints - ESDL':
-        window.open('https://www.google.com/search?q=site:'+targetDomain+' filetype:wsdl | filetype:WSDL | ext:svc | inurl:wsdl | Filetype: ?wsdl | inurl:asmx?wsdl | inurl:jws?wsdl | intitle:_vti_bin/sites.asmx?wsdl | inurl:_vti_bin/sites.asmx?wsdl', '_blank', 'noopener,noreferrer');
-        break;
       case 'Search in CRT Logs':
         window.open('https://crt.sh/?q='+targetDomain, '_blank', 'noopener,noreferrer');
-        break;
-      case 'Plaintext Password Leak':
-        window.open('https://www.google.com/search?q=site:throwbin.io '+targetDomain, '_blank', 'noopener,noreferrer');
         break;
       // Add more cases for other buttons
       default:
