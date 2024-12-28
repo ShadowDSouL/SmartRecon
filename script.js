@@ -1,6 +1,25 @@
+let isCloseButtonClicked = false;
+
+document.getElementById('closeButton').addEventListener('click', () => {
+  isCloseButtonClicked = true; // Set the flag
+  closeModal(); // Call the function to close the modal
+});
+
 document.querySelectorAll('button').forEach((button, index) => {
   button.addEventListener('click', (e) => {
+
+    if (isCloseButtonClicked) {
+      isCloseButtonClicked = false; // Reset the flag
+      return; // Exit if close button was clicked
+    }
+
     const targetDomain = document.getElementById('target-domain').value;
+    // Validation for empty input and invalid domain format
+    if (!validateDomain(targetDomain)) {
+      alert('Please enter a valid domain.');
+      return; // Exit the function if validation fails
+    }
+    
     const buttonText = e.target.textContent;
 
     switch (buttonText) {
@@ -153,3 +172,16 @@ document.querySelectorAll('button').forEach((button, index) => {
     }
   });
 });
+
+
+// Function to validate domain name
+function validateDomain(domain) {
+  // Regular expression for basic domain validation
+  const domainPattern = /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.[A-Za-z]{2,})+$/;
+  return domainPattern.test(domain);
+}
+
+// Function to close the modal
+function closeModal() {
+  document.getElementById('welcomeModal').style.display = 'none';
+}
