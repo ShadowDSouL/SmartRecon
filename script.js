@@ -88,7 +88,7 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'WordPress':
         window.open('https://www.google.com/search?q=site:'+targetDomain+' inurl:wp- | inurl:wp-content | inurl:plugins | inurl:uploads | inurl:themes | inurl:download', '_blank', 'noopener,noreferrer');
         break;
-      case 'Find WordPress#2':
+      case 'WordPress includes':
         window.open('https://www.google.com/search?q=site:'+targetDomain+' inurl:wp-content | inurl:wp-includes', '_blank', 'noopener,noreferrer');
         break;
       case 'Find Pastebin entries':
@@ -151,14 +151,11 @@ document.querySelectorAll('button').forEach((button, index) => {
       case 'Source Code PublicWWW':
         window.open('https://publicwww.com/websites/'+targetDomain, '_blank', 'noopener,noreferrer');
         break;
-      case 'Check in Censys [IPv4]':
-        window.open('https://censys.io/ipv4?q='+targetDomain, '_blank', 'noopener,noreferrer');
-        break;
       case 'Check in Censys [Domains]':
-        window.open('https://censys.io/domain?q='+targetDomain, '_blank', 'noopener,noreferrer');
+        window.open('https://search.censys.io/search?resource=hosts&sort=RELEVANCE&per_page=25&virtual_hosts=EXCLUDE&q='+targetDomain, '_blank', 'noopener,noreferrer');
         break;
       case 'Check in Censys [Certs]':
-        window.open('https://censys.io/certificates?q='+targetDomain, '_blank', 'noopener,noreferrer');
+        window.open('https://search.censys.io/search?resource=certificates&sort=RELEVANCE&per_page=25&virtual_hosts=EXCLUDE&q='+targetDomain, '_blank', 'noopener,noreferrer');
         break;
       case 'Check in Shodan':
         window.open('https://www.shodan.io/search?query='+targetDomain, '_blank', 'noopener,noreferrer');
