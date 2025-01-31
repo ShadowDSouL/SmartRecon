@@ -5,6 +5,16 @@ This tool works best when combined with your natural strategy for hunting bugs. 
 
 ![image](https://github.com/user-attachments/assets/a119f41d-3751-4772-beb7-9e6489570cd8)
 
+# How to use
+Step 1: Enter the target domain in the input field.
+
+Step 2: HOLD your CTRL and Click on any of the buttons.
+
+That's all.
+
+Note: Remember to HOLD your CTRL while you are clicking the buttons. 
+It will open a new tab for each button clicked and it will not directly swap you to those tabs opened (which means you will still stay on the SmartRecon page). Therefore, it helps you to save a lot of time from swapping the pages between SmartRecon and those opened new tabs when you still have other buttons want to click.
+
 # Techniques
 
 1. Directory Listing: Finding open directories using Google Dork on your target organization helps one to understand the directory structure on the web server. It may reveal sensitive information or it may lead to information disclosure.
@@ -90,18 +100,3 @@ This tool works best when combined with your natural strategy for hunting bugs. 
 41. Shodan: Search engine for Internet-connected devices
 
 42. CT Logs: Certificate Transparency (CT) is an Internet security standard and open-source framework for monitoring and auditing digital certificates. It can be used to look for additional sub-domains for a targeted organization.
-
-# How to use
-Step 1: Enter the target domain in the input field.
-
-Step 2: HOLD your CTRL and Click on any of the buttons.
-
-That's all.
-
-Note: Remember to HOLD your CTRL while you are clicking the buttons. It will open a new tab for each button clicked and it will not directly swap you to those tabs opened (which means you will still stay on the SmartRecon page). Therefore, it helps you to save a lot of time from swapping the pages between SmartRecon and those opened new tabs when you still have other buttons want to click.
-
-
-
-
-
-
