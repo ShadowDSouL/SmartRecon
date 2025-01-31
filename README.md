@@ -98,7 +98,7 @@ Step 2: HOLD your CTRL and Click on any of the buttons.
 
 That's all.
 
-Note: Remember to HOLD your CTRL while you are clicking the buttons. It will open a new tab for each button clicked and it will not directly swap you to those tabs opened (which means you will still stay on the SmartRecon page). Therefore, it helps you to save a lot of time from swapping the pages between SmartRecon and those opened new tabs.
+Note: Remember to HOLD your CTRL while you are clicking the buttons. It will open a new tab for each button clicked and it will not directly swap you to those tabs opened (which means you will still stay on the SmartRecon page). Therefore, it helps you to save a lot of time from swapping the pages between SmartRecon and those opened new tabs when you still have other buttons want to click.
 
 
 
