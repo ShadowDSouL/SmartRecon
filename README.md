@@ -93,7 +93,9 @@ This tool works best when combined with your natural strategy for hunting bugs. 
 
 # How to use
 Step 1: Enter the target domain in the input field.
+
 Step 2: HOLD your CTRL and Click on any of the buttons.
+
 That's all.
 
 Note: Remember to HOLD your CTRL while you are clicking the buttons. It will open a new tab for each button clicked and it will not directly swap you to those tabs opened (which means you will still stay on the SmartRecon page). Therefore, it helps you to save a lot of time from swapping the pages between SmartRecon and those opened new tabs.
