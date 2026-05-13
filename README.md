@@ -4,7 +4,8 @@ SmartRecon v2 is a passive reconnaissance tool designed for penetration testers 
 
 > **No active scanning. No packets sent to the target. 100% passive.**
 
-[![image](image.png)](https://shadowdsoul.github.io/SmartRecon/)
+<img width="1920" height="1779" alt="image" src="https://github.com/user-attachments/assets/af940e0e-4ab7-4c84-865f-c031f9b82c2e" />
+
 ---
 
 ## What's New in v2
