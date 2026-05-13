@@ -26,10 +26,11 @@ SmartRecon v2 is a passive reconnaissance tool designed for penetration testers 
 ---
 
 ## How to Use
+**Step 1:** Visit https://shadowdsoul.github.io/SmartRecon/
 
-**Step 1:** Enter the target domain in the input field (e.g. `example.com`).
+**Step 2:** Enter the target domain in the input field (e.g. `example.com`).
 
-**Step 2:** **Hold `Ctrl` and click** any button to open the result in a background tab — you stay on SmartRecon and can keep clicking.
+**Step 3:** **Hold `Ctrl` and click** any button to open the result in a background tab — you stay on SmartRecon and can keep clicking.
 
 That's the core workflow. But v2 adds much more:
 
