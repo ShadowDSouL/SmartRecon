@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartRecon v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg2: #0f1218;
+    --bg3: #141820;
+    --bg4: #1a2030;
+    --border: rgba(80,200,120,0.15);
+    --border2: rgba(80,200,120,0.3);
+    --green: #50c878;
+    --green2: #3daf62;
+    --green-dim: rgba(80,200,120,0.08);
+    --green-dim2: rgba(80,200,120,0.15);
+    --red: #ff4757;
+    --amber: #ffa502;
+    --cyan: #00d2ff;
+    --purple: #a855f7;
+    --text: #e8eaf0;
+    --text2: #8892a4;
+    --text3: #4a5568;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Space Grotesk', sans-serif;
+    --radius: 8px;
+    --radius2: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Grid scanline bg ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(80,200,120,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(80,200,120,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── Top corner glow ── */
+  body::after {
+    content: '';
+    position: fixed; top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(80,200,120,0.07) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* ── Header ── */
+  header {
+    padding: 28px 0 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-icon {
+    width: 36px; height: 36px;
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 14px; font-weight: 700;
+    color: var(--green);
+    background: var(--green-dim);
+    flex-shrink: 0;
+  }
+  .logo-text h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+  .logo-text span { font-size: 12px; color: var(--text2); font-family: var(--mono); }
+  .logo-badge {
+    font-size: 10px; font-family: var(--mono);
+    background: var(--green-dim2); color: var(--green);
+    border: 1px solid var(--border2); border-radius: 4px;
+    padding: 2px 8px; letter-spacing: 1px;
+    align-self: flex-start; margin-top: 2px;
+  }
+  .header-right { display: flex; align-items: center; gap: 8px; }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    animation: pulse-dot 2s infinite;
+    box-shadow: 0 0 6px var(--green);
+  }
+  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .status-text { font-size: 12px; font-family: var(--mono); color: var(--text2); }
+
+  /* ── Target bar ── */
+  .target-bar {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius2);
+    padding: 20px 24px;
+    margin: 24px 0;
+    display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;
+  }
+  .input-group { flex: 1; min-width: 240px; }
+  .input-label {
+    font-size: 11px; font-family: var(--mono); color: var(--text2);
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .input-label::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--green); border-radius: 50%; }
+  .target-input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: var(--mono); font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .target-input::placeholder { color: var(--text3); }
+  .target-input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(80,200,120,0.1);
+  }
+  .ctrl-hint {
+    font-size: 12px; font-family: var(--mono); color: var(--text2);
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 10px 16px;
+    white-space: nowrap; display: flex; align-items: center; gap: 8px;
+  }
+  kbd {
+    font-family: var(--mono); font-size: 11px;
+    background: var(--bg4); border: 1px solid var(--border2);
+    border-radius: 4px; padding: 1px 6px; color: var(--green);
+  }
+
+  /* ── Filter bar ── */
+  .filter-bar {
+    display: flex; align-items: center; gap: 8px;
+    flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .filter-label { font-size: 11px; font-family: var(--mono); color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-right: 4px; }
+  .filter-btn {
+    font-size: 11px; font-family: var(--mono);
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 5px 12px; color: var(--text2);
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .filter-btn:hover { border-color: var(--border2); color: var(--text); }
+  .filter-btn.active { background: var(--green-dim2); border-color: var(--green); color: var(--green); }
+  .filter-btn .count {
+    font-size: 10px; background: var(--bg3);
+    border-radius: 4px; padding: 0 5px; color: var(--text3);
+  }
+  .filter-btn.active .count { background: rgba(80,200,120,0.2); color: var(--green); }
+  .search-box-wrap { margin-left: auto; }
+  .search-box {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 5px 12px;
+    color: var(--text); font-family: var(--mono); font-size: 12px;
+    outline: none; width: 180px; transition: border-color 0.2s;
+  }
+  .search-box::placeholder { color: var(--text3); }
+  .search-box:focus { border-color: var(--border2); }
+
+  /* ── Section ── */
+  .section { margin-bottom: 32px; }
+  .section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-icon { font-size: 14px; }
+  .section-title { font-size: 12px; font-family: var(--mono); color: var(--green); letter-spacing: 2px; text-transform: uppercase; }
+  .section-count { font-size: 11px; font-family: var(--mono); color: var(--text3); margin-left: auto; }
+
+  /* ── Button grid ── */
+  .btn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 8px;
+  }
+
+  /* ── Recon button ── */
+  .recon-btn {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    display: flex; align-items: center; gap: 10px;
+    position: relative; overflow: hidden;
+    text-decoration: none; /* keep for safety */
+  }
+  .recon-btn::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.15s;
+  }
+  .recon-btn:hover {
+    border-color: var(--border2);
+    color: var(--text);
+    background: var(--bg3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .recon-btn:hover::before { background: var(--green); }
+  .recon-btn:active { transform: translateY(0); }
+  .recon-btn.fired {
+    border-color: rgba(80,200,120,0.4);
+    background: var(--green-dim);
+    color: var(--green);
+  }
+  .recon-btn.fired::before { background: var(--green); }
+  .btn-icon {
+    width: 26px; height: 26px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; flex-shrink: 0;
+    background: var(--bg4); border: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .recon-btn:hover .btn-icon { border-color: var(--border2); }
+  .btn-text { flex: 1; line-height: 1.3; }
+  .btn-name { font-weight: 500; font-size: 13px; }
+  .btn-sub { font-size: 10px; font-family: var(--mono); color: var(--text3); margin-top: 1px; display: block; }
+  .btn-tag {
+    font-size: 9px; font-family: var(--mono);
+    padding: 1px 5px; border-radius: 3px;
+    border: 1px solid;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  /* Tag colors */
+  .tag-critical { border-color: rgba(255,71,87,0.4); color: var(--red); background: rgba(255,71,87,0.08); }
+  .tag-files { border-color: rgba(255,165,2,0.4); color: var(--amber); background: rgba(255,165,2,0.08); }
+  .tag-intel { border-color: rgba(0,210,255,0.4); color: var(--cyan); background: rgba(0,210,255,0.08); }
+  .tag-infra { border-color: rgba(168,85,247,0.4); color: var(--purple); background: rgba(168,85,247,0.08); }
+  .tag-social { border-color: rgba(80,200,120,0.4); color: var(--green); background: rgba(80,200,120,0.08); }
+  .tag-code { border-color: rgba(255,165,2,0.4); color: var(--amber); background: rgba(255,165,2,0.08); }
+
+  /* ── Quick-launch bar ── */
+  .quick-bar {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius2); padding: 16px 20px;
+    margin-bottom: 24px; display: flex; align-items: center;
+    gap: 12px; flex-wrap: wrap;
+  }
+  .quick-label { font-size: 11px; font-family: var(--mono); color: var(--text3); letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+  .quick-btn {
+    font-size: 12px; font-family: var(--mono);
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 14px; color: var(--text2);
+    cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .quick-btn:hover { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+  .quick-btn.red:hover { border-color: var(--red); color: var(--red); background: rgba(255,71,87,0.08); }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 16px; flex: 1; min-width: 120px;
+  }
+  .stat-val { font-size: 22px; font-weight: 700; font-family: var(--mono); color: var(--green); }
+  .stat-lbl { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-top: 2px; }
+
+  /* ── Launch log ── */
+  .log-panel {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius2); margin-top: 32px; overflow: hidden;
+  }
+  .log-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .log-title { font-size: 11px; font-family: var(--mono); color: var(--text2); letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+  .log-body { padding: 12px 20px; max-height: 180px; overflow-y: auto; display: none; }
+  .log-body.open { display: block; }
+  .log-entry { font-size: 12px; font-family: var(--mono); color: var(--text2); padding: 3px 0; display: flex; gap: 10px; }
+  .log-time { color: var(--text3); flex-shrink: 0; }
+  .log-name { color: var(--green); }
+  .clear-log { font-size: 11px; font-family: var(--mono); color: var(--text3); background: none; border: none; cursor: pointer; }
+  .clear-log:hover { color: var(--red); }
+
+  /* ── Toast ── */
+  .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+  .toast {
+    background: var(--bg3); border: 1px solid var(--green);
+    border-radius: var(--radius); padding: 10px 16px;
+    font-size: 12px; font-family: var(--mono); color: var(--green);
+    animation: toast-in 0.2s ease; pointer-events: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Empty state ── */
+  .empty-state { text-align: center; padding: 48px; color: var(--text3); font-family: var(--mono); font-size: 13px; }
+  .empty-icon { font-size: 32px; margin-bottom: 8px; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  /* ── Hidden sections ── */
+  .section.hidden { display: none; }
+  .recon-btn.hidden { display: none; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .btn-grid { grid-template-columns: 1fr 1fr; }
+    .target-bar { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">SR</div>
+      <div class="logo-text">
+        <h1>SmartRecon <span class="logo-badge">v2</span></h1>
+        <span>Passive Reconnaissance Framework</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-dot"></div>
+      <span class="status-text">PASSIVE MODE</span>
+    </div>
+  </header>
+
+  <!-- Target input -->
+  <div class="target-bar">
+    <div class="input-group">
+      <div class="input-label">Target Domain</div>
+      <input type="text" id="targetInput" class="target-input" placeholder="example.com" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="ctrl-hint">
+      <kbd>Ctrl</kbd> + Click = background tab &nbsp;|&nbsp; Quick Launch = fire entire category
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-val" id="stat-total">50</div><div class="stat-lbl">// techniques</div></div>
+    <div class="stat-card"><div class="stat-val" id="stat-fired">0</div><div class="stat-lbl">// launched</div></div>
+    <div class="stat-card"><div class="stat-val" id="stat-coverage">0%</div><div class="stat-lbl">// coverage</div></div>
+  </div>
+
+  <!-- Quick-launch -->
+  <div class="quick-bar">
+    <span class="quick-label">Quick Launch ›</span>
+    <button class="quick-btn" onclick="launchCategory('Files & Exposure')">All File Exposure</button>
+    <button class="quick-btn" onclick="launchCategory('Infrastructure')">All Infrastructure</button>
+    <button class="quick-btn" onclick="launchCategory('Social & Code')">All Social/Code</button>
+    <button class="quick-btn" onclick="launchCategory('Subdomains & Certs')">All Subdomain Intel</button>
+    <button class="quick-btn" onclick="launchCategory('Search Engines')">All Search Engines</button>
+    <button class="quick-btn red" onclick="launchAll()">⚡ Launch All</button>
+    <button class="quick-btn" onclick="resetAll()" style="margin-left:auto">↺ Reset</button>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter ›</span>
+    <button class="filter-btn active" data-cat="all" onclick="filterCat(this,'all')">All <span class="count" id="cnt-all">50</span></button>
+    <button class="filter-btn" data-cat="Files & Exposure" onclick="filterCat(this,'Files & Exposure')">Files &amp; Exposure <span class="count" id="cnt-fe"></span></button>
+    <button class="filter-btn" data-cat="Infrastructure" onclick="filterCat(this,'Infrastructure')">Infrastructure <span class="count" id="cnt-infra"></span></button>
+    <button class="filter-btn" data-cat="Social & Code" onclick="filterCat(this,'Social & Code')">Social &amp; Code <span class="count" id="cnt-sc"></span></button>
+    <button class="filter-btn" data-cat="Subdomains & Certs" onclick="filterCat(this,'Subdomains & Certs')">Subdomains &amp; Certs <span class="count" id="cnt-sd"></span></button>
+    <button class="filter-btn" data-cat="Search Engines" onclick="filterCat(this,'Search Engines')">Search Engines <span class="count" id="cnt-se"></span></button>
+    <div class="search-box-wrap">
+      <input type="text" id="searchBox" class="search-box" placeholder="🔎 filter techniques..." oninput="filterSearch(this.value)">
+    </div>
+  </div>
+
+  <!-- Sections will be rendered by JS -->
+  <div id="sections-container"></div>
+
+  <!-- No results -->
+  <div id="empty-state" class="empty-state" style="display:none">
+    <div class="empty-icon">◌</div>
+    No techniques match your filter.
+  </div>
+
+  <!-- Launch log -->
+  <div class="log-panel">
+    <div class="log-header" onclick="toggleLog()">
+      <div class="log-title"><span id="log-dot" class="status-dot" style="width:6px;height:6px;"></span> Launch Log (<span id="log-count">0</span> entries)</div>
+      <button class="clear-log" onclick="event.stopPropagation(); clearLog()">clear</button>
+    </div>
+    <div class="log-body" id="logBody"></div>
+  </div>
+
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+const TECHNIQUES = [
+  // ── FILES & EXPOSURE ──
+  { name:'Directory Listing', sub:'Open dirs on target', cat:'Files & Exposure', icon:'📂', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+intitle:"index+of"` },
+  { name:'Configuration Files', sub:'Hardcoded creds, tokens', cat:'Files & Exposure', icon:'⚙️', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+ext:xml+OR+ext:conf+OR+ext:cnf+OR+ext:reg+OR+ext:inf+OR+ext:rdp+OR+ext:cfg+OR+ext:txt+OR+ext:ora+OR+ext:ini` },
+  { name:'Database Files', sub:'Exposed DB dumps', cat:'Files & Exposure', icon:'🗄️', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+ext:sql+OR+ext:dbf+OR+ext:mdb` },
+  { name:'Log Files', sub:'Session tokens, errors', cat:'Files & Exposure', icon:'📋', tag:'files',
+    url: d => `https://www.google.com/search?q=site:${d}+ext:log` },
+  { name:'Backup Files', sub:'Old/backup source copies', cat:'Files & Exposure', icon:'💾', tag:'files',
+    url: d => `https://www.google.com/search?q=site:${d}+ext:bkf+OR+ext:bkp+OR+ext:bak+OR+ext:old+OR+ext:backup` },
+  { name:'Login Pages', sub:'Auth endpoints', cat:'Files & Exposure', icon:'🔐', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:login+OR+inurl:signin+OR+inurl:admin+OR+inurl:auth` },
+  { name:'SQL Errors', sub:'Backend DB fingerprinting', cat:'Files & Exposure', icon:'🔴', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+"sql+syntax"+OR+"mysql_fetch_array"+OR+"ORA-"` },
+  { name:'Apache Config', sub:'httpd.conf exposure', cat:'Files & Exposure', icon:'🖥️', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:httpd.conf+OR+inurl:apache.conf` },
+  { name:'Robots.txt', sub:'Hidden directories hint', cat:'Files & Exposure', icon:'🤖', tag:'intel',
+    url: d => `https://${d}/robots.txt` },
+  { name:'Exposed Documents', sub:'PDF/DOC metadata', cat:'Files & Exposure', icon:'📄', tag:'files',
+    url: d => `https://www.google.com/search?q=site:${d}+ext:doc+OR+ext:docx+OR+ext:odt+OR+ext:pdf+OR+ext:rtf+OR+ext:sxw+OR+ext:psw+OR+ext:ppt+OR+ext:pptx+OR+ext:pps+OR+ext:csv` },
+  { name:'phpinfo() Leak', sub:'PHP config disclosure', cat:'Files & Exposure', icon:'🐘', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+ext:php+intitle:phpinfo+"published+by+the+PHP+Group"` },
+  { name:'Backdoor Files', sub:'Web shells, defacement', cat:'Files & Exposure', icon:'🚨', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:shell+OR+inurl:backdoor+OR+inurl:wso+OR+inurl:cmd+OR+shadow+OR+passwd+OR+boot.ini+OR+inurl:etc/passwd` },
+  { name:'Install/Setup Files', sub:'Version info, CMS setup', cat:'Files & Exposure', icon:'🔧', tag:'files',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:readme+OR+inurl:license+OR+inurl:install+OR+inurl:setup+OR+inurl:upgrade` },
+  { name:'Open Redirects', sub:'Known redirect params', cat:'Files & Exposure', icon:'↪️', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:return+OR+inurl:next+OR+inurl:url+OR+inurl:redirect+OR+inurl:rurl` },
+  { name:'Cross Domain (.xml)', sub:'Misconfigured crossdomain', cat:'Files & Exposure', icon:'🌐', tag:'files',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:crossdomain.xml` },
+  { name:'.htaccess / Sensitive', sub:'Server misconfiguration', cat:'Files & Exposure', icon:'🔒', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:.htaccess+OR+intitle:"Index of"+".htpasswd"` },
+  { name:'3rd Party Exposure', sub:'Codeshare, Codepen leaks', cat:'Files & Exposure', icon:'🌍', tag:'files',
+    url: d => `https://www.google.com/search?q="${d}"+site:codebeautify.org+OR+site:codeshare.io+OR+site:codepen.io+OR+site:repl.it` },
+  { name:'Error Pages', sub:'Stack traces & tech info', cat:'Files & Exposure', icon:'⚠️', tag:'files',
+    url: d => `https://www.google.com/search?q=site:${d}+intext:"Warning:"+OR+intext:"Fatal+error:"+OR+intext:"Traceback"` },
+  { name:'Cloud Buckets', sub:'AWS/Azure/GCP exposure', cat:'Files & Exposure', icon:'☁️', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:s3.amazonaws.com+"${d}"+OR+site:blob.core.windows.net+"${d}"+OR+site:storage.googleapis.com+"${d}"` },
+  { name:'S3 Buckets Open', sub:'Open S3 bucket search', cat:'Files & Exposure', icon:'🪣', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:s3.amazonaws.com+${d.split('.')[0]}` },
+
+  // ── INFRASTRUCTURE ──
+  { name:'Security Headers', sub:'Missing header detection', cat:'Infrastructure', icon:'🛡️', tag:'infra',
+    url: d => `https://securityheaders.com/?q=${d}&followRedirects=on` },
+  { name:'Web-Check', sub:'Full recon dashboard', cat:'Infrastructure', icon:'🔭', tag:'infra',
+    url: d => `https://web-check.xyz/check/${d}` },
+  { name:'What CMS?', sub:'CMS fingerprinting', cat:'Infrastructure', icon:'🏗️', tag:'infra',
+    url: d => `https://whatcms.org/?s=${d}` },
+  { name:'WordPress Core', sub:'WP vulnerabilities', cat:'Infrastructure', icon:'📰', tag:'infra',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:wp-content+OR+inurl:wp-includes` },
+  { name:'WordPress Includes', sub:'Sensitive WP files', cat:'Infrastructure', icon:'📦', tag:'infra',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:wp-content/plugins+OR+inurl:wp-content/themes` },
+  { name:'Reverse IP Lookup', sub:'Shared hosting & neighbors', cat:'Infrastructure', icon:'🔄', tag:'infra',
+    url: d => `https://viewdns.info/reverseip/?host=${d}&t=1` },
+  { name:'Censys Domains', sub:'Internet scan results', cat:'Infrastructure', icon:'🌐', tag:'infra',
+    url: d => `https://search.censys.io/search?resource=hosts&q=${d}` },
+  { name:'DNS Lookup', sub:'All record types', cat:'Infrastructure', icon:'📡', tag:'infra',
+    url: d => `https://dnschecker.org/#A/${d}` },
+  { name:'WHOIS Info', sub:'Registration & contact data', cat:'Infrastructure', icon:'📋', tag:'intel',
+    url: d => `https://whois.domaintools.com/${d}` },
+  { name:'BuiltWith', sub:'Tech stack fingerprint', cat:'Infrastructure', icon:'🔩', tag:'infra',
+    url: d => `https://builtwith.com/${d}` },
+
+  // ── SUBDOMAINS & CERTS ──
+  { name:'Find Subdomains', sub:'Google subdomain enum', cat:'Subdomains & Certs', icon:'🌿', tag:'infra',
+    url: d => `https://www.google.com/search?q=site:${d}+-www` },
+  { name:'Sub-Subdomains', sub:'Deep subdomain search', cat:'Subdomains & Certs', icon:'🌱', tag:'infra',
+    url: d => `https://www.google.com/search?q=site:*.*.${d}` },
+  { name:'CT Logs (crt.sh)', sub:'Certificate transparency', cat:'Subdomains & Certs', icon:'🌳', tag:'infra',
+    url: d => `https://crt.sh/?q=%25.${d}` },
+  { name:'Censys Certs', sub:'Certificate search', cat:'Subdomains & Certs', icon:'📜', tag:'infra',
+    url: d => `https://search.censys.io/search?resource=certificates&q=${d}` },
+  { name:'SSL Checker', sub:'Chain, expiry, config', cat:'Subdomains & Certs', icon:'🔑', tag:'infra',
+    url: d => `https://www.ssllabs.com/ssltest/analyze.html?d=${d}&hideResults=on` },
+  //{ name:'DNSDumpster', sub:'DNS recon & mapping', cat:'Subdomains & Certs', icon:'🗺️', tag:'infra',
+  //  url: d => `https://dnsdumpster.com/` },
+  //{ name:'Amass (OSS)', sub:'Active subdomain enum', cat:'Subdomains & Certs', icon:'⚡', tag:'infra',
+  //  url: d => `https://github.com/owasp-amass/amass` },
+  //{ name:'Subfinder Launch', sub:'subfinder wrapper', cat:'Subdomains & Certs', icon:'🔍', tag:'infra',
+  //  url: d => `https://github.com/projectdiscovery/subfinder` },
+
+  // ── SOCIAL & CODE ──
+  { name:'Find Pastebin', sub:'Leaked secrets/passwords', cat:'Social & Code', icon:'📝', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:pastebin.com+"${d}"` },
+  { name:'LinkedIn Employees', sub:'Username list building', cat:'Social & Code', icon:'👔', tag:'social',
+    url: d => `https://www.google.com/search?q=site:linkedin.com+"${d}"+employees` },
+  { name:'GitHub', sub:'Source code leaks', cat:'Social & Code', icon:'⚫', tag:'code',
+    url: d => `https://github.com/search?q="${d}"&type=code` },
+  { name:'GitHub Gist', sub:'Secret paste leaks', cat:'Social & Code', icon:'📎', tag:'code',
+    url: d => `https://gist.github.com/search?q=${d}` },
+  { name:'.git Folder', sub:'Source code exposure', cat:'Social & Code', icon:'🔓', tag:'critical',
+    url: d => `https://www.google.com/search?q=site:${d}+inurl:".git"` },
+  { name:'GitLab', sub:'Private repo leaks', cat:'Social & Code', icon:'🦊', tag:'code',
+    url: d => `https://gitlab.com/search?search=${d}&scope=blobs` },
+  { name:'StackOverflow', sub:'Code & tech exposure', cat:'Social & Code', icon:'📚', tag:'intel',
+    url: d => `https://stackoverflow.com/search?q=${d}` },
+  { name:'Reddit Mentions', sub:'Public org discussions', cat:'Social & Code', icon:'🟠', tag:'intel',
+    url: d => `https://www.reddit.com/search/?q=${d}` },
+  { name:'YouTube', sub:'Recent news & announcements', cat:'Social & Code', icon:'▶️', tag:'intel',
+    url: d => `https://www.youtube.com/results?search_query=${d}` },
+  { name:'OpenBugBounty', sub:'Public security issues', cat:'Social & Code', icon:'🐛', tag:'intel',
+    url: d => `https://www.openbugbounty.org/search/?search=${d}` },
+
+  // ── SEARCH ENGINES ──
+  { name:'Shodan', sub:'Exposed ports & services', cat:'Search Engines', icon:'📡', tag:'infra',
+    url: d => `https://www.shodan.io/search?query=${d}` },
+  { name:'Wayback Machine', sub:'Archived old files', cat:'Search Engines', icon:'⏪', tag:'intel',
+    url: d => `https://web.archive.org/web/*/${d}` },
+  { name:'PublicWWW', sub:'Source code search', cat:'Search Engines', icon:'💻', tag:'code',
+    url: d => `https://publicwww.com/websites/${d}/` },
+  { name:'Google Dork Base', sub:'Full site index', cat:'Search Engines', icon:'🔍', tag:'intel',
+    url: d => `https://www.google.com/search?q=site:${d}` },
+  { name:'Bing Dork', sub:'Bing site index', cat:'Search Engines', icon:'🔎', tag:'intel',
+    url: d => `https://www.bing.com/search?q=site:${d}` },
+];
+
+// ── State ──
+let firedSet = new Set();
+let currentCat = 'all';
+let currentSearch = '';
+let logEntries = [];
+let logOpen = false;
+
+function getTarget() {
+  return document.getElementById('targetInput').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '') || 'example.com';
+}
+
+function getVisible() {
+  return TECHNIQUES.filter(t => {
+    const matchCat = currentCat === 'all' || t.cat === currentCat;
+    const matchSearch = !currentSearch || t.name.toLowerCase().includes(currentSearch) || t.sub.toLowerCase().includes(currentSearch) || t.cat.toLowerCase().includes(currentSearch);
+    return matchCat && matchSearch;
+  });
+}
+
+function openURL(url) {
+  window.open(url, '_blank');
+}
+
+function handleBtnClick(e, idx) {
+  const target = getTarget();
+  if (target === 'example.com' && !document.getElementById('targetInput').value.trim()) {
+    toast('⚠ Enter a target domain first');
+    document.getElementById('targetInput').focus();
+    return;
+  }
+  const t = TECHNIQUES[idx];
+  const url = t.url(target);
+  openURL(url);
+  firedSet.add(idx);
+  document.querySelectorAll(`.recon-btn[data-idx="${idx}"]`).forEach(b => b.classList.add('fired'));
+  logEntry(t.name, url);
+  updateStats();
+}
+
+function launchCategory(cat) {
+  const target = getTarget();
+  if (target === 'example.com') { toast('⚠ Enter a target domain first'); return; }
+  let count = 0;
+  TECHNIQUES.forEach((t, i) => {
+    if (t.cat === cat) { openURL(t.url(target)); firedSet.add(i); count++; logEntry(t.name, t.url(target)); }
+  });
+  renderAll();
+  updateStats();
+  toast(`⚡ Launched ${count} ${cat} techniques`);
+}
+
+function launchAll() {
+  const target = getTarget();
+  if (target === 'example.com') { toast('⚠ Enter a target domain first'); return; }
+  const visible = getVisible();
+  visible.forEach((t, _) => {
+    const idx = TECHNIQUES.indexOf(t);
+    openURL(t.url(target));
+    firedSet.add(idx);
+    logEntry(t.name, t.url(target));
+  });
+  renderAll();
+  updateStats();
+  toast(`⚡ Launched ${visible.length} techniques`);
+}
+
+function resetAll() {
+  firedSet.clear();
+  renderAll();
+  updateStats();
+  toast('↺ Reset complete');
+}
+
+function logEntry(name, url) {
+  const now = new Date();
+  const time = now.toTimeString().slice(0,8);
+  logEntries.unshift({ time, name, url });
+  if (logEntries.length > 100) logEntries.pop();
+  renderLog();
+}
+
+function renderLog() {
+  const body = document.getElementById('logBody');
+  document.getElementById('log-count').textContent = logEntries.length;
+  body.innerHTML = logEntries.map(e =>
+    `<div class="log-entry"><span class="log-time">${e.time}</span><span class="log-name">${e.name}</span></div>`
+  ).join('');
+}
+
+function toggleLog() {
+  logOpen = !logOpen;
+  document.getElementById('logBody').classList.toggle('open', logOpen);
+}
+
+function clearLog() {
+  logEntries = [];
+  renderLog();
+}
+
+function updateStats() {
+  const total = TECHNIQUES.length;
+  const fired = firedSet.size;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-fired').textContent = fired;
+  document.getElementById('stat-coverage').textContent = Math.round((fired/total)*100) + '%';
+}
+
+function filterCat(btn, cat) {
+  currentCat = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function filterSearch(val) {
+  currentSearch = val.toLowerCase();
+  renderAll();
+}
+
+function toast(msg) {
+  const c = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(() => el.remove(), 2500);
+}
+
+// ── Category config ──
+const CAT_DEFS = [
+  { key:'Files & Exposure', icon:'📁', cntId:'cnt-fe' },
+  { key:'Infrastructure',   icon:'🖧', cntId:'cnt-infra' },
+  { key:'Subdomains & Certs', icon:'🌿', cntId:'cnt-sd' },
+  { key:'Social & Code',    icon:'💬', cntId:'cnt-sc' },
+  { key:'Search Engines',   icon:'🔍', cntId:'cnt-se' },
+];
+
+function renderAll() {
+  const container = document.getElementById('sections-container');
+  container.innerHTML = '';
+
+  // Update counts
+  const allCount = TECHNIQUES.length;
+  document.getElementById('cnt-all').textContent = allCount;
+  CAT_DEFS.forEach(cd => {
+    const n = TECHNIQUES.filter(t => t.cat === cd.key).length;
+    const el = document.getElementById(cd.cntId);
+    if (el) el.textContent = n;
+  });
+
+  const visible = getVisible();
+  document.getElementById('empty-state').style.display = visible.length === 0 ? 'block' : 'none';
+
+  const cats = currentCat === 'all'
+    ? CAT_DEFS.map(cd => cd.key)
+    : [currentCat];
+
+  cats.forEach(cat => {
+    const items = visible.filter(t => t.cat === cat);
+    if (!items.length) return;
+
+    const section = document.createElement('div');
+    section.className = 'section';
+
+    const catDef = CAT_DEFS.find(c => c.key === cat) || {};
+    section.innerHTML = `
+      <div class="section-header">
+        <span class="section-icon">${catDef.icon || ''}</span>
+        <span class="section-title">${cat}</span>
+        <span class="section-count">${items.length} techniques</span>
+      </div>
+      <div class="btn-grid"></div>
+    `;
+    const grid = section.querySelector('.btn-grid');
+
+    items.forEach(t => {
+      const idx = TECHNIQUES.indexOf(t);
+      const isFired = firedSet.has(idx);
+      const btn = document.createElement('button');
+      btn.className = 'recon-btn' + (isFired ? ' fired' : '');
+      btn.dataset.idx = idx;
+      btn.title = 'Ctrl+Click to open in background tab';
+      btn.innerHTML = `
+        <div class="btn-icon">${t.icon}</div>
+        <div class="btn-text">
+          <div class="btn-name">${t.name}</div>
+          <span class="btn-sub">${t.sub}</span>
+        </div>
+        <span class="btn-tag tag-${t.tag}">${t.tag}</span>
+      `;
+      btn.addEventListener('click', e => handleBtnClick(e, idx));
+      grid.appendChild(btn);
+    });
+
+    container.appendChild(section);
+  });
+}
+
+// Init
+renderAll();
+updateStats();
+
+// Enter key on input
+document.getElementById('targetInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    document.getElementById('targetInput').blur();
+    toast('✓ Target set: ' + getTarget());
+  }
+});
+</script>
+</body>
+</html>
